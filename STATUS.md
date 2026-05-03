@@ -54,10 +54,15 @@
 - [ ] Rate limiting por usuario (no solo por IP)
 - [ ] Tests unitarios (Jest)
 
-### Android App
-- [ ] Setup proyecto en Android Studio
+### Android App (Fase 1)
+- [x] Setup proyecto en Android Studio
+- [x] Gradle + Compose configurado
+- [x] Estructura de carpetas (MVVM)
+- [x] Material 3 theme
+- [x] Splash screen placeholder
 - [ ] Pantallas de Auth (Login/Register)
 - [ ] Onboarding wizard (4-5 steps)
+- [ ] Integración API con Retrofit
 - [ ] Integración CameraX + guías visuales
 - [ ] UI de medidas antropométricas
 - [ ] Dashboard con plan nutricional
