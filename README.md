@@ -1,36 +1,63 @@
-# NutriAI
+# NutriAI 🥗
 
-**Aplicación Android de Recomposición Corporal con IA**
+**Tu nutricionista personal con inteligencia artificial**
 
-Plataforma profesional de nutrición impulsada por IA para pérdida de grasa saludable mediante análisis visual, tracking antropométrico y planes nutricionales personalizados basados en ciencia.
+App de recomposición corporal que combina IA avanzada (GPT-4 + Vision) con planes nutricionales personalizados.
+
+[![Deploy Backend](https://img.shields.io/badge/deploy-fly.io-blueviolet)](https://fly.io)
+[![Deploy Frontend](https://img.shields.io/badge/deploy-vercel-black)](https://vercel.com)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
 
-## 🎯 MVP Core Features
+## 🚀 Quick Start
 
-### 1. Motor de Nutricionista IA (LLM)
-- Integración con GPT-4/Claude via API
-- Prompts sistémicos profesionales basados en literatura científica
-- Generación de planes nutricionales en JSON estructurado
-- Rechazo automático de dietas extremas/no saludables
+### Backend (API + PostgreSQL)
 
-### 2. Análisis Visual (Computer Vision)
-- Captura estandarizada: frente, perfil, espalda
-- Guías visuales (siluetas overlay) en cámara
-- Estimación de % grasa corporal
-- Detección de somatotipo (ecto/meso/endomorfo)
+```bash
+cd backend
+npm install
+npm run dev    # http://localhost:3000/api
+```
 
-### 3. Tracker Antropométrico
-- Registro de medidas zonales: cuello, pecho, cintura, cadera, brazo, muslo
-- UI interactiva con mapeo corporal
-- Indicadores de progreso visual
-- Iteración automática de macros según estancamiento
+### Frontend (Next.js PWA)
 
-### 4. Onboarding Inteligente
-- Cálculo de TMB (Tasa Metabólica Basal)
-- Registro de NEAT (actividad diaria)
-- Alergias, intolerancias y restricciones
-- Presupuesto y disponibilidad de alimentos
+```bash
+cd web
+npm install
+npm run dev    # http://localhost:3001
+```
+
+### Android (Kotlin + Jetpack Compose)
+
+```bash
+cd android
+./gradlew assembleRelease
+```
+
+---
+
+## ✨ Características
+
+### 🤖 Inteligencia Artificial
+
+- **GPT-4 Turbo**: Nutricionista IA que genera planes personalizados
+- **GPT-4 Vision**: Análisis corporal desde fotos
+- **Cálculo TMB**: Mifflin-St Jeor equation
+- **Macronutrientes**: Distribución óptima según objetivo
+
+### 📱 Multiplataforma
+
+- **Web (PWA)**: Instalable en cualquier dispositivo
+- **Android**: App nativa con Kotlin + Compose
+- **iOS**: Próximamente (compartirá backend)
+
+### 📊 Tracking Completo
+
+- Mediciones corporales (peso, grasa, músculo)
+- Progreso fotográfico con análisis IA
+- Historial de planes nutricionales
+- Gráficas de evolución
 
 ---
 
@@ -38,158 +65,278 @@ Plataforma profesional de nutrición impulsada por IA para pérdida de grasa sal
 
 ```
 nutriai/
-├── backend/          # Node.js + Express + PostgreSQL
-├── android/          # Kotlin + Jetpack Compose
-└── docs/            # Especificaciones técnicas
+├── backend/         Node.js + Express + PostgreSQL
+├── web/             Next.js 15 + React 19 + Tailwind
+├── android/         Kotlin + Jetpack Compose
+└── docs/            Documentación completa
 ```
 
-### Stack Tecnológico
+### Backend (Node.js)
 
-**Backend:**
-- Runtime: Node.js 22+
-- Framework: Express.js
-- Base de datos: PostgreSQL 16+ (con encriptación)
-- APIs IA: OpenAI GPT-4 Turbo + GPT-4 Vision
-- Autenticación: JWT + bcrypt
+- **Framework**: Express.js
+- **Database**: PostgreSQL
+- **Auth**: JWT (bcrypt)
+- **AI**: OpenAI API (GPT-4 Turbo + Vision)
+- **ORM**: Raw SQL (optimizado)
 
-**Android:**
-- Lenguaje: Kotlin 2.0+
-- UI: Jetpack Compose
-- Arquitectura: MVVM + Clean Architecture
-- Networking: Retrofit + OkHttp
-- Cámara: CameraX
-- Storage: Room + DataStore
+**Endpoints principales:**
 
-**Infraestructura:**
-- Deploy backend: Fly.io
-- Imágenes: Cloudinary / S3
-- CI/CD: GitHub Actions
-
----
-
-## 📊 Modelo de Datos (PostgreSQL)
-
-### Tablas Core
-
-```sql
-users (
-  id, email, password_hash, created_at
-)
-
-user_profiles (
-  id, user_id, age, gender, height, weight, tmb, neat,
-  allergies[], intolerances[], budget, somatotype
-)
-
-body_measurements (
-  id, user_id, date, neck, chest, waist, hip, arm, thigh,
-  body_fat_estimate, photos[]
-)
-
-nutrition_plans (
-  id, user_id, start_date, end_date, goal_type,
-  daily_calories, protein_g, carbs_g, fat_g,
-  plan_json, status
-)
-
-progress_logs (
-  id, user_id, date, weight, measurements_id,
-  notes, mood
-)
+```
+POST /api/auth/register        Crear cuenta
+POST /api/auth/login           Iniciar sesión
+GET  /api/users/profile        Obtener perfil
+PUT  /api/users/profile        Actualizar perfil
+POST /api/nutrition/generate-plan   Plan nutricional IA
+POST /api/vision/analyze-body       Análisis corporal
+POST /api/measurements          Registrar medición
+GET  /api/measurements          Historial
 ```
 
----
+### Frontend (Next.js)
 
-## 🚀 Roadmap de Desarrollo
+- **Framework**: Next.js 15 (App Router)
+- **UI**: Tailwind CSS + Headless UI
+- **State**: Zustand
+- **HTTP**: Axios
+- **PWA**: Service Worker + Manifest
 
-### Fase 1: Setup & Core Backend (Semana 1)
-- [x] Estructura de proyecto
-- [ ] Setup Express + PostgreSQL
-- [ ] Modelos de base de datos
-- [ ] API de autenticación (register/login)
-- [ ] Endpoint de onboarding (guardar perfil)
+**Páginas:**
 
-### Fase 2: IA Backend (Semana 2)
-- [ ] Integración OpenAI GPT-4 (Nutricionista IA)
-- [ ] Prompts sistémicos profesionales
-- [ ] Endpoint `/api/nutrition/generate-plan`
-- [ ] Integración GPT-4 Vision (análisis corporal)
-- [ ] Endpoint `/api/vision/analyze-body`
+- `/` - Login/Register
+- `/dashboard` - Panel principal
+- `/profile` - Editar perfil
+- `/camera` - Análisis corporal
+- `/nutrition` - Generador de planes
+- `/measurements` - Tracking
 
-### Fase 3: Android Core (Semana 3)
-- [ ] Setup Kotlin + Compose
-- [ ] Splash screen + Auth screens
-- [ ] Onboarding flow (wizard)
-- [ ] Integración API backend
+### Android (Kotlin)
 
-### Fase 4: Computer Vision Android (Semana 4)
-- [ ] CameraX integration
-- [ ] Overlay de guías (siluetas)
-- [ ] Captura estandarizada (3 ángulos)
-- [ ] Upload y análisis con backend
-
-### Fase 5: Tracker & Dashboard (Semana 5)
-- [ ] UI de medidas antropométricas
-- [ ] Visualización de progreso (gráficas)
-- [ ] Dashboard con plan nutricional actual
-- [ ] Lista de compras generada
-
-### Fase 6: MVP Testing & Deploy (Semana 6)
-- [ ] Testing E2E
-- [ ] Deploy backend a Fly.io
-- [ ] APK alpha release
-- [ ] Documentación de usuario
+- **Language**: Kotlin 2.1.0
+- **UI**: Jetpack Compose + Material 3
+- **Architecture**: MVVM
+- **Network**: Retrofit + OkHttp
+- **Camera**: CameraX
+- **Database**: Room
 
 ---
 
-## 🔒 Seguridad & Compliance
+## 🔧 Setup Desarrollo
 
-- Encriptación de datos biométricos (AES-256)
-- Transmisión HTTPS/TLS 1.3
-- Cumplimiento GDPR/CCPA (derecho al olvido)
-- Consentimiento explícito para fotos
-- No venta de datos a terceros
-- Disclaimers médicos (no reemplaza profesional de salud)
+### 1. Clonar repositorio
 
----
-
-## 💰 Modelo de Negocio (Post-MVP)
-
-- Freemium: Plan básico gratuito
-- Premium: Plan personalizado avanzado + coach IA 24/7
-- Marketplace: Recetas premium de chefs
-- Afiliados: Links a productos saludables
-
----
-
-## 📝 Notas de Desarrollo
-
-**Variables de entorno requeridas:**
 ```bash
-OPENAI_API_KEY=sk-...
-DATABASE_URL=postgresql://...
-JWT_SECRET=...
-CLOUDINARY_URL=...
+git clone https://github.com/saltbalente/nutriAi.git
+cd nutriAi
 ```
 
-**Comandos útiles:**
+### 2. Backend
+
+```bash
+cd backend
+
+# Instalar dependencias
+npm install
+
+# Configurar PostgreSQL
+createdb nutriai_dev
+
+# Variables de entorno
+cp .env.example .env
+# Editar .env con tus credenciales
+
+# Inicializar base de datos
+npm run db:init
+
+# Desarrollo
+npm run dev
+```
+
+### 3. Web App
+
+```bash
+cd web
+
+# Instalar dependencias
+npm install
+
+# Variables de entorno
+cp .env.example .env.local
+
+# Desarrollo
+npm run dev
+```
+
+### 4. Android
+
+```bash
+cd android
+
+# Build debug
+./gradlew assembleDebug
+
+# Build release
+./gradlew assembleRelease
+```
+
+---
+
+## 🌐 Deploy
+
+### Backend → Fly.io
+
+```bash
+cd backend
+fly launch
+fly deploy
+```
+
+### Frontend → Vercel
+
+```bash
+cd web
+vercel --prod
+```
+
+Variables de entorno en Vercel:
+
+```
+NEXT_PUBLIC_API_URL=https://nutriai-api.fly.dev/api
+```
+
+---
+
+## 📚 Documentación
+
+- [API Documentation](docs/API.md) - Endpoints detallados
+- [AI Prompts](docs/PROMPTS.md) - Sistema de prompts IA
+- [Setup Guide](docs/SETUP.md) - Guía de instalación completa
+
+---
+
+## 🔐 Seguridad
+
+- ✅ JWT Authentication
+- ✅ Password hashing (bcrypt)
+- ✅ SQL injection protection
+- ✅ CORS configurado
+- ✅ Rate limiting (pendiente)
+- ✅ HTTPS only en producción
+
+---
+
+## 🧪 Testing
+
 ```bash
 # Backend
-cd backend && npm run dev
+cd backend
+npm test
+
+# Frontend
+cd web
+npm test
 
 # Android
-cd android && ./gradlew assembleDebug
+cd android
+./gradlew test
 ```
 
 ---
 
-## 👥 Team
+## 📱 Instalación APK (Android)
 
-- **Lead Developer:** Edwar Bechara
-- **AI Assistant:** Claw ⚡
+### Opción 1: Instalación directa (no funciona con Samsung Knox)
+
+1. Descarga `NutriAI-v1.0.0-RELEASE.apk`
+2. Habilita "Fuentes desconocidas"
+3. Instala el APK
+
+### Opción 2: ADB (recomendado para Samsung)
+
+```bash
+# Habilitar depuración USB en Android
+# Conectar dispositivo por USB
+
+adb install -r NutriAI-v1.0.0-RELEASE.apk
+```
+
+### Opción 3: Web App (sin instalación)
+
+Navega a la URL desplegada y usa "Añadir a pantalla de inicio" para instalar como PWA.
 
 ---
 
-## 📄 License
+## 🛠️ Stack Tecnológico
 
-Privado - Todos los derechos reservados
+### Backend
+- Node.js 20
+- Express.js 4
+- PostgreSQL 16
+- OpenAI API (GPT-4)
+- JWT + bcrypt
+- Multer (uploads)
+
+### Frontend
+- Next.js 15
+- React 19
+- TypeScript 5
+- Tailwind CSS 3
+- Zustand
+- Axios
+
+### Android
+- Kotlin 2.1.0
+- Jetpack Compose
+- Material 3
+- Retrofit
+- CameraX
+- Room
+
+---
+
+## 🗺️ Roadmap
+
+- [x] Backend MVP con IA
+- [x] Web App (PWA)
+- [x] Android App estructura
+- [ ] Cámara + análisis corporal
+- [ ] Generador de planes completo
+- [ ] Gráficas de progreso
+- [ ] Notificaciones push
+- [ ] Integración con wearables
+- [ ] iOS app
+- [ ] Modo offline
+
+---
+
+## 📄 Licencia
+
+MIT License - ver [LICENSE](LICENSE)
+
+---
+
+## 👨‍💻 Autor
+
+**Edwar Bechara**
+- GitHub: [@saltbalente](https://github.com/saltbalente)
+
+---
+
+## 🤝 Contribuciones
+
+Contribuciones son bienvenidas! Por favor:
+
+1. Fork el proyecto
+2. Crea tu feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'feat: Add AmazingFeature'`)
+4. Push al branch (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+---
+
+## ⚠️ Disclaimer
+
+Esta app es un proyecto personal de demostración. Para recomendaciones nutricionales profesionales, consulta con un nutricionista certificado.
+
+---
+
+**Hecho con ❤️ y ☕ en Colombia**
