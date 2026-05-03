@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.nutriai"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.nutriai"
@@ -21,9 +21,22 @@ android {
         buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:3000/api\"")
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("${rootProject.projectDir.parent}/release.keystore")
+            storePassword = "nutriai2026"
+            keyAlias = "nutriai"
+            keyPassword = "nutriai2026"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
